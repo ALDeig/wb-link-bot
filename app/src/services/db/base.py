@@ -8,5 +8,5 @@ class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
-engine = create_async_engine(settings.DATABASE_URL)
+engine = create_async_engine(settings.SQLITE_DSN)
 session_factory = async_sessionmaker(engine, expire_on_commit=False)

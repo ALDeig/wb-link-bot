@@ -1,3 +1,4 @@
+import sqlalchemy as sa
 from sqlalchemy.dialects.sqlite import insert
 
 from app.src.services.db.dao.base_dao import BaseDao
@@ -17,3 +18,8 @@ class UserDao(BaseDao[User]):
         )
         await self._session.execute(query)
         await self._session.commit()
+
+    async def count(self, **filter_by) -> int:
+        query = sa.select(sa.func.count(self.model.id)).filter_by(**filter_by)
+        response = await self._session.execute(query)
+        return response.scalar_one()
