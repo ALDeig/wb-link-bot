@@ -12,6 +12,10 @@ logger = logging.getLogger(__name__)
 
 ADMIN_COMMANS = [
     BotCommand(command="start", description="Перезапустить бот"),
+    BotCommand(command="set_start_text", description="Изменить текст команды старт"),
+    BotCommand(command="set_caption_text", description="Изменить текст подписи"),
+    BotCommand(command="mailing", description="Рассылка сообщения"),
+    BotCommand(command="user_amount", description="Количесто пользователей"),
 ]
 
 

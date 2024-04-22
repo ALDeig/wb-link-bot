@@ -5,8 +5,8 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from commands import set_commands
 
+from app.commands import set_commands
 from app.settings import settings
 from app.src.dialogs.handlers import admin, user
 from app.src.middleware.db import DbSessionMiddleware
