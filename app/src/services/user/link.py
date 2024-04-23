@@ -40,7 +40,7 @@ def _create_link(data: LinkData) -> str:
         f"{'&utm_term=' + data.utm_term if data.utm_term else ''}"
         f"{'&utm_content=' + data.utm_content if data.utm_content else ''}"
     )
-    link = link.replace(" ", "_")
+    link = link.replace(" ", "+")
     return link
 
 
