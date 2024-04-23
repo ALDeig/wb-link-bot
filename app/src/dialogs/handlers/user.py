@@ -69,7 +69,7 @@ async def get_utm_term(msg: Message, state: FSMContext):
 @router.message(StateFilter(LinkState.get_utm_content), flags={"db": True})
 async def get_utm_content(msg: Message, db: AsyncSession, state: FSMContext):
     data = await state.get_data()
-    await msg.answer("Ссылка формируется", reply_markup=ReplyKeyboardRemove())
+    await msg.answer("Готовая ссылка", reply_markup=ReplyKeyboardRemove())
     await state.clear()
     if msg.text != "Пропустить":
         data["utm_content"] = msg.text
