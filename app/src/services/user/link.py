@@ -11,33 +11,37 @@ from app.src.services.db.dao.service_message_dao import ServiceMessageDao
 @dataclass(slots=True)
 class LinkData:
     wb_link: str
-    product_name: str
-    source_name: str
-    traffic_type: str
+    utm_source: str
+    utm_medium: str
+    utm_campaign: str
+    utm_term: str | None = None
+    utm_content: str | None = None
 
 
-async def create_link(
+async def get_link(
     session: AsyncSession, data: LinkData
 ) -> tuple[str, InlineKeyboardMarkup]:
-    clear_link = data.wb_link.split("?", maxsplit=1)[0]
     try:
-        scu = _get_article(clear_link)
+        link = _create_link(data)
     except NotValideteUrl:
         return "Введена не верная ссылка на товар", kb_user_menu()
     caption = await _get_caption(session)
+    return f"{link}\n\n{caption}", kb_user_menu()
+
+
+def _create_link(data: LinkData) -> str:
+    clear_link = data.wb_link.split("?", maxsplit=1)[0]
+    scu = _get_article(clear_link)
     link = (
         f"{clear_link}?"
-        f"utm_source={data.source_name}&"
-        f"utm_medium={data.traffic_type}&"
-        f"utm_campaign={scu}-id-{data.product_name}"
-        f"\n\n{caption}"
+        f"utm_source={data.utm_source}&"
+        f"utm_medium={data.utm_medium}&"
+        f"utm_campaign={scu}-id-{data.utm_campaign}"
+        f"{'&utm_term=' + data.utm_term if data.utm_term else ''}"
+        f"{'&utm_content=' + data.utm_content if data.utm_content else ''}"
     )
-    return link, kb_user_menu()
-
-
-"""
-https://www.wildberries.ru/catalog/158969750/detail.aspx?utm_source=vk&utm_medium=email&utm_campaign=158969750-id-название
-"""
+    link = link.replace(" ", "_")
+    return link
 
 
 async def _get_caption(session: AsyncSession) -> str:

@@ -18,16 +18,52 @@ def kb_user_menu() -> InlineKeyboardMarkup:
     )
 
 
-def kb_source_name() -> ReplyKeyboardMarkup:
-    buttons = [[KeyboardButton(text="telegram"), KeyboardButton(text="vk")]]
-    kb = ReplyKeyboardMarkup(keyboard=buttons)
-    return kb
-
-
-def kb_traffic_type() -> ReplyKeyboardMarkup:
+def kb_utm_source() -> ReplyKeyboardMarkup:
     buttons = [
-        [KeyboardButton(text="cpc"), KeyboardButton(text="email")],
-        [KeyboardButton(text="banner"), KeyboardButton(text="article")],
+        [
+            KeyboardButton(text="telegram"),
+            KeyboardButton(text="vk"),
+            KeyboardButton(text="OK"),
+        ],
+        [
+            KeyboardButton(text="seo"),
+            KeyboardButton(text="site"),
+            KeyboardButton(text="РСЯ"),
+        ],
+        [
+            KeyboardButton(text="YandexDirect"),
+            KeyboardButton(text="MyTarget"),
+            KeyboardButton(text="YouTube"),
+        ],
+        [
+            KeyboardButton(text="Viber"),
+            KeyboardButton(text="WhatsApp"),
+        ],
     ]
     kb = ReplyKeyboardMarkup(keyboard=buttons)
     return kb
+
+
+def kb_utm_medium() -> ReplyKeyboardMarkup:
+    buttons = [
+        [
+            KeyboardButton(text="cpc"),
+            KeyboardButton(text="email"),
+            KeyboardButton(text="banner"),
+        ],
+        [
+            KeyboardButton(text="search"),
+            KeyboardButton(text="cpm"),
+            KeyboardButton(text="retargeting"),
+        ],
+        [
+            KeyboardButton(text="social"),
+            KeyboardButton(text="cpa"),
+        ],
+    ]
+    kb = ReplyKeyboardMarkup(keyboard=buttons)
+    return kb
+
+
+def kb_skip():
+    return ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Пропустить")]])
