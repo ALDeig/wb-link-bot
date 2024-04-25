@@ -1,3 +1,5 @@
+from typing import cast
+
 from aiogram import F, Router
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
@@ -8,7 +10,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.src.dialogs.keyboards.user import kb_skip, kb_utm_medium, kb_utm_source
 from app.src.dialogs.state.link import LinkState
 from app.src.services.user import texts
-from app.src.services.user.link import LinkData, get_link
+from app.src.services.user.link import (
+    LinkData,
+    NotValidateUtmCampaign,
+    get_link,
+    prepate_utm_campaign,
+)
 from app.src.services.user.user import cmd_user_start
 
 router = Router()
@@ -53,7 +60,12 @@ async def get_utm_medium(msg: Message, state: FSMContext):
 
 @router.message(StateFilter(LinkState.get_utm_campaign))
 async def get_utm_campaign(msg: Message, state: FSMContext):
-    await state.update_data(utm_campaign=msg.text)
+    try:
+        utm_campaign = prepate_utm_campaign(cast(str, msg.text))
+    except NotValidateUtmCampaign:
+        await msg.answer(texts.UTM_CAMPAIGN_NOT_VALID)
+        return
+    await state.update_data(utm_campaign=utm_campaign)
     await msg.answer(texts.GET_UTM_TERM, reply_markup=kb_skip())
     await state.set_state(LinkState.get_utm_term)
 

@@ -21,22 +21,29 @@ class LinkData:
 async def get_link(
     session: AsyncSession, data: LinkData
 ) -> tuple[str, InlineKeyboardMarkup]:
-    try:
-        link = _create_link(data)
-    except NotValideteUrl:
-        return "Введена не верная ссылка на товар", kb_user_menu()
+    link = _create_link(data)
     caption = await _get_caption(session)
     return f"{link}\n\n{caption}", kb_user_menu()
 
 
+def prepate_utm_campaign(raw: str) -> str:
+    try:
+        supplier_id, link_id = raw.split(" ", maxsplit=1)
+    except ValueError:
+        raise NotValidateUtmCampaign
+    if not supplier_id.isdigit():
+        raise NotValidateUtmCampaign
+    return f"{supplier_id}-id-{link_id}".replace(" ", "+")
+
+
 def _create_link(data: LinkData) -> str:
     clear_link = data.wb_link.split("?", maxsplit=1)[0]
-    scu = _get_article(clear_link)
+    # scu = _get_article(clear_link)
     link = (
         f"{clear_link}?"
         f"utm_source={data.utm_source}&"
         f"utm_medium={data.utm_medium}&"
-        f"utm_campaign={scu}-id-{data.utm_campaign}"
+        f"utm_campaign={data.utm_campaign}"
         f"{'&utm_term=' + data.utm_term if data.utm_term else ''}"
         f"{'&utm_content=' + data.utm_content if data.utm_content else ''}"
     )
@@ -51,15 +58,19 @@ async def _get_caption(session: AsyncSession) -> str:
     return caption.text
 
 
-def _get_article(url: str) -> int:
-    """Если передается артикул, то он и возвращается типом int, если url, то
-    достается артикул и приводится к int"""
-    url_without_params = url.split("?")[0]
-    digits = re.search(r"\d+", url_without_params)
-    if digits is None:
-        raise NotValideteUrl
-    return int(digits.group())
+# def _get_article(url: str) -> int:
+#     """Если передается артикул, то он и возвращается типом int, если url, то
+#     достается артикул и приводится к int"""
+#     url_without_params = url.split("?")[0]
+#     digits = re.search(r"\d+", url_without_params)
+#     if digits is None:
+#         raise NotValideteUrl
+#     return int(digits.group())
 
 
-class NotValideteUrl(Exception):
+# class NotValideteUrl(Exception):
+#     pass
+
+
+class NotValidateUtmCampaign(Exception):
     pass
