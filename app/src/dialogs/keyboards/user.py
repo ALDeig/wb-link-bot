@@ -38,6 +38,7 @@ def kb_utm_source() -> ReplyKeyboardMarkup:
         [
             KeyboardButton(text="Viber"),
             KeyboardButton(text="WhatsApp"),
+            KeyboardButton(text="Instagram"),
         ],
     ]
     kb = ReplyKeyboardMarkup(keyboard=buttons)
@@ -49,7 +50,7 @@ def kb_utm_medium() -> ReplyKeyboardMarkup:
         [
             KeyboardButton(text="cpc"),
             KeyboardButton(text="email"),
-            KeyboardButton(text="banner"),
+            KeyboardButton(text="storyreels"),
         ],
         [
             KeyboardButton(text="search"),
@@ -59,6 +60,7 @@ def kb_utm_medium() -> ReplyKeyboardMarkup:
         [
             KeyboardButton(text="social"),
             KeyboardButton(text="cpa"),
+            KeyboardButton(text="banner"),
         ],
     ]
     kb = ReplyKeyboardMarkup(keyboard=buttons)
