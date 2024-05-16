@@ -41,7 +41,7 @@ def kb_utm_source() -> ReplyKeyboardMarkup:
             KeyboardButton(text="Instagram"),
         ],
     ]
-    kb = ReplyKeyboardMarkup(keyboard=buttons)
+    kb = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
     return kb
 
 
@@ -63,9 +63,11 @@ def kb_utm_medium() -> ReplyKeyboardMarkup:
             KeyboardButton(text="banner"),
         ],
     ]
-    kb = ReplyKeyboardMarkup(keyboard=buttons)
+    kb = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
     return kb
 
 
 def kb_skip():
-    return ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Пропустить")]])
+    return ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text="Пропустить")]], resize_keyboard=True
+    )
